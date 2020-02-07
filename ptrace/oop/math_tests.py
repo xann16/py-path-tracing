@@ -1,6 +1,5 @@
 """Unit tests for math-oriented common classes."""
 
-
 import unittest
 import math
 import numpy as np
