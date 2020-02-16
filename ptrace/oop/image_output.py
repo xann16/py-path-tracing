@@ -2,6 +2,7 @@
    throughout rendering process."""
 
 import numpy as np
+from PIL import Image
 
 from .utils import colour2bytes
 from .vector import Vec3
@@ -53,3 +54,13 @@ class AccumulableImage():
     def total_sample_count(self):
         """Returns total number of samples accumulated."""
         return np.sum(self.sample_counts)
+
+    def save_as_png(self, output_path):
+        """Saves current contents of accumulable image to png file at given
+           path."""
+        byte_array = np.empty((self.width, self.height, 3), dtype='uint8')
+        for i in range(0, self.width):
+            for j in range(0, self.height):
+                byte_array[i, j, :] = self.bytes_at((i, j))
+        img = Image.fromarray(byte_array)
+        img.save(output_path)

@@ -63,14 +63,15 @@ class Renderer():
 
         output = AccumulableImage(width, height)
         for sample in range(1, samples + 1):
-            for x_pos, y_pos in zip(range(0, width), range(0, height)):
-                ray = self.camera.get_ray(x_pos, y_pos)
-                output.add_samples(x_pos, y_pos, self.radiance(ray, 0), 1)
+            for x_pos in range(0, width):
+                for y_pos in range(0, height):
+                    ray = self.camera.get_ray(x_pos, y_pos)
+                    output.add_samples(x_pos, y_pos, self.radiance(ray, 0), 1)
             if verbose:
                 print("\rRendering... Sampling passes done: {:2}/{:2}".format(sample, samples),
                       end='')
         if verbose:
-            print("\rRendering done.")
+            print("\rRendering done.                                     ")
 
         return output
 
@@ -105,14 +106,15 @@ class Renderer():
         sampler = RadianceSampler(self, depth + 1)
 
         # even sampling with random offset
-        for u_ix, v_ix in zip(range(0, u_samples), range(0, v_samples)):
-            u_pos = (u_ix + random.random()) / u_samples
-            v_pos = (v_ix + random.random()) / v_samples
-            prob = random.random()
+        for u_ix in range(0, u_samples):
+            for v_ix in range(0, v_samples):
+                u_pos = (u_ix + random.random()) / u_samples
+                v_pos = (v_ix + random.random()) / v_samples
+                prob = random.random()
 
-            result += material.sample(hit, ray, sampler, u_pos, v_pos, prob)
+                result += material.sample(hit, ray, sampler, u_pos, v_pos, prob)
 
-        return material.totalEmission(result / (u_samples * v_samples))
+        return material.total_emission(result / (u_samples * v_samples))
 
     #pylint: disable=too-many-arguments
     #pylint: disable=too-many-locals

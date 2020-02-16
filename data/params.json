@@ -1,0 +1,10 @@
+{
+    "width": 80,
+    "height": 80,
+    "preview": false,
+    "samples_per_pixel": 8,
+    "max_cpus": 1,
+    "max_depth": 3,
+    "first_bounce_u_samples": 4,
+    "first_bounce_v_samples": 4
+}
